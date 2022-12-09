@@ -6,13 +6,13 @@ const port = process.env.PORT || 5000
 
 // middleware
 
-app.get('/', (req, res) => {
-    res.send('donate blood server')
-})
 
 app.use(cors())
 app.use(express.json())
 
+app.get('/', (req, res) => {
+    res.send('donate blood server')
+})
 async function run() {
     try {
 
