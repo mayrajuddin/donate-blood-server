@@ -20,6 +20,7 @@ async function run() {
     try {
         const usersCollection = client.db("donateBlood").collection("users");
         const donarsInfoCollection = client.db("donateBlood").collection("donarsInfo");
+        const bloodCollections = client.db("donateBlood").collection("bloodBank");
         // create user 
         app.post('/users', async (req, res) => {
             const user = req.body
@@ -43,6 +44,18 @@ async function run() {
             const query = { email }
             const donar = await donarsInfoCollection.findOne(query)
             res.send(donar)
+        })
+        // add blood to bank
+        app.post('/bloodSample', async (req, res) => {
+            const blood = req.body
+            const result = await bloodCollections.insertOne(blood)
+            res.send(result)
+        })
+        //show blood to ui
+        app.get('/bloodSample', async (req, res) => {
+            const query = {}
+            const options = await bloodCollections.find(query).toArray()
+            res.send(options)
         })
     }
     catch { }
